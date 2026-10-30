@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Ultralytics çıktıları ve ağırlıklar
+runs/
+*.pt
+!modeller/best.pt
+
+# Veri seti görüntüleri (büyük dosyalar repoya girmesin)
+veri/images/*/*
+veri/labels/*/*
+!veri/images/*/.gitkeep
+!veri/labels/*/.gitkeep
+
+# Alarm kayıtları
+alarmlar/goruntular/*
+!alarmlar/goruntular/.gitkeep
+alarmlar/log.txt
