@@ -12,7 +12,7 @@ sonraki aşamada ekiple yapılacak.
 | Hafta | Konu | Durum |
 |---|---|---|
 | 1 | Ortam kurulumu + YOLOv8 webcam testi | Tamamlandı |
-| 2 | Veri seti (yangın/duman) | - |
+| 2 | Veri seti (yangın/duman) | Tamamlandı |
 | 3 | Model eğitimi | - |
 | 4 | Webcam'e bağlama + alarm | - |
 | 5 | Alarm kaydı + log | - |
@@ -28,6 +28,39 @@ Yapılanlar:
 - Proje klasör yapısı oluşturuldu.
 - Veri seti ayar dosyası hazırlandı: [veri/yangin.yaml](veri/yangin.yaml)
   (sınıflar: `0 = yangin`, `1 = duman`).
+
+## Hafta 2: Veri seti
+
+Yangın/duman tespiti için [D-Fire](https://github.com/gaiasd/DFireDataset) veri seti kullanıldı.
+D-Fire'da 21.000'den fazla görüntü var; orijinal indirme linkleri (OneDrive, Kaggle) giriş
+istediği için Hugging Face'teki kopyası (`badsaarow/d-fire`) kullanıldı. Plandaki 1000-2000
+görüntü hedefine göre içinden 2035 görüntü seçildi.
+
+| | Eğitim (train) | Doğrulama (val) |
+|---|---|---|
+| Görüntü | 1628 | 407 |
+| Boş görüntü (yangın/duman yok) | 153 | 28 |
+| Yangın kutusu | 3043 | 946 |
+| Duman kutusu | 1406 | 376 |
+
+- Görüntüler güvenlik kameralarından (gece/gündüz, uzak duman) ve internetten (yakın yangınlar)
+  karışık seçildi; yanlış alarmı azaltmak için bir miktar boş görüntü de eklendi.
+- %80 eğitim / %20 doğrulama olarak rastgele bölündü (sabit tohum: aynı bölünme tekrar elde edilir).
+- D-Fire'da sınıf sırası tersdir (0 = duman, 1 = yangın). Etiketler yerleştirilirken bu projenin
+  sırasına (0 = yangin, 1 = duman) çevrildi. Sıra, görüntüler üzerine çizilerek doğrulandı.
+- Görüntü ve etiket sayıları birebir eşleşiyor; tüm kutu koordinatları 0-1 aralığında.
+
+Etiket kontrolü (rastgele 12 görüntü; kırmızı = yangın, gri = duman):
+
+![Etiket kontrolü](ekran_goruntuleri/etiket_kontrol.jpg)
+
+Veri setini oluşturmak için (görüntüler büyük olduğu için repoda yok):
+
+```bash
+.venv/bin/python araclar/dfire_indir.py etiketli /tmp/dfire   # ~173 MB indirir
+.venv/bin/python araclar/veri_hazirla.py /tmp/dfire           # %80/%20 böler, sınıfları çevirir
+.venv/bin/python araclar/etiket_kontrol.py                    # sayıları kontrol eder, örnek çizer
+```
 
 ## Kurulum
 
@@ -66,11 +99,15 @@ yangin-tespit-sistemi/
 ├── testler/
 │   ├── kamera_testi.py     # YOLOv8 ile webcam testi
 │   └── kamera_goster.py    # sadece kamera görüntüsü
+├── araclar/
+│   ├── dfire_indir.py      # D-Fire görüntülerini indirir
+│   ├── veri_hazirla.py     # %80/%20 böler, sınıfları çevirir
+│   └── etiket_kontrol.py   # sayıları kontrol eder, örnek çizer
 ├── kaynak/                 # sistemin kodu (sonraki haftalarda)
 ├── modeller/               # eğitilmiş model (Hafta 3)
 ├── veri/
-│   ├── images/train, val   # görüntüler (Hafta 2)
-│   ├── labels/train, val   # etiketler (Hafta 2)
+│   ├── images/train, val   # görüntüler (repoda yok, araclar/ ile indirilir)
+│   ├── labels/train, val   # etiketler (repoda yok, araclar/ ile indirilir)
 │   └── yangin.yaml         # veri seti ayarları
 ├── alarmlar/goruntular/    # alarm fotoğrafları (Hafta 5)
 ├── videolar/               # test videoları
