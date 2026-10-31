@@ -1,12 +1,7 @@
-"""D-Fire görüntülerini eğitim (%80) ve doğrulama (%20) olarak veri/ klasörüne yerleştirir.
+"""D-Fire görüntülerini %80 eğitim / %20 doğrulama olarak veri/ klasörüne yerleştirir
+ve sınıf sırasını çevirir (D-Fire: 0 duman, 1 yangın -> bu proje: 0 yangin, 1 duman).
 
-D-Fire'da sınıflar 0 = duman, 1 = yangın şeklindedir. Bizim yangin.yaml dosyamızda
-0 = yangin, 1 = duman olduğu için etiketlerdeki sınıf numaraları yer değiştirilir.
-
-Kullanım (proje klasöründen):
     .venv/bin/python araclar/veri_hazirla.py <kaynak_klasor>
-
-<kaynak_klasor> içinde images/ (jpg) ve labels/ (txt) klasörleri olmalı.
 """
 import random
 import shutil

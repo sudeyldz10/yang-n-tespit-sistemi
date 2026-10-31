@@ -1,11 +1,5 @@
-"""Veri setini kontrol eder ve rastgele görüntüleri etiketleriyle çizer.
+"""Görüntü/etiket sayılarını kontrol eder, 12 örneği kutularıyla çizer.
 
-- Görüntü ve etiket sayılarının eşleşip eşleşmediğini kontrol eder
-- Sınıf başına kutu sayısını yazar
-- Rastgele 12 görüntüyü kutularıyla bir tabloya çizip
-  ekran_goruntuleri/etiket_kontrol.jpg olarak kaydeder
-
-Kullanım (proje klasöründen):
     .venv/bin/python araclar/etiket_kontrol.py
 """
 import random

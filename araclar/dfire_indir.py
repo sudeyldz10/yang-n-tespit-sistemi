@@ -1,17 +1,7 @@
-"""D-Fire veri setinden bu projede kullanılan görüntüleri indirir.
+"""D-Fire görüntülerini Hugging Face kopyasından (badsaarow/d-fire) indirir.
 
-D-Fire'ın orijinal linkleri (OneDrive, Kaggle) giriş istediği için Hugging Face'teki
-kopyası kullanılır: https://huggingface.co/datasets/badsaarow/d-fire
-Veri, parquet dosyalarında 5'er alt gruba bölünmüş durumda. Tümünü (3,1 GB) indirmek
-yerine sadece seçilen alt gruplar HTTP Range istekleriyle indirilir.
-
-Kullanım (proje klasöründen):
-    .venv/bin/python araclar/dfire_indir.py etiketli <klasor>   # yangın/duman görüntüleri (~173 MB)
-    .venv/bin/python araclar/dfire_indir.py bilgi               # sadece grupların içeriğini yaz
-
-Sonra:
-    .venv/bin/python araclar/veri_hazirla.py <klasor>
-Not: etiketler D-Fire sırasıyla yazılır (0 = duman, 1 = yangın); veri_hazirla.py çevirir.
+    .venv/bin/python araclar/dfire_indir.py etiketli <klasor>   # eğitim görüntüleri
+    .venv/bin/python araclar/dfire_indir.py bilgi               # grupları listeler
 """
 import io
 import sys

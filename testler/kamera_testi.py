@@ -1,9 +1,6 @@
-"""Hafta 1 - Webcam ile hazır YOLOv8 modelini test et.
+"""Hazır YOLOv8 modeliyle webcam testi. Çıkmak için 'q'.
 
-Çalıştırma (proje klasöründen):
     .venv/bin/python testler/kamera_testi.py
-
-Çıkmak için pencere seçiliyken 'q' tuşuna bas.
 """
 import time
 

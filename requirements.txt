@@ -1,6 +1,3 @@
-# Gerekenler (Python 3.9 ile denendi)
-ultralytics==8.4.60       # YOLOv8 (torch, torchvision, numpy, PyYAML'ı da kurar)
-opencv-python==4.13.0.92  # kamera ve görüntü işleme
-
-# Hafta 2: D-Fire veri setini Hugging Face'ten indirmek için
+ultralytics==8.4.60
+opencv-python==4.13.0.92
 pyarrow==21.0.0
