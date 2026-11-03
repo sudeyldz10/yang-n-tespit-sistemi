@@ -1,4 +1,3 @@
-# Veri seti ayarları (Hafta 2'de veri seti eklenince kullanılacak)
 # Not: "images" ve "labels" klasör adları YOLO için zorunlu, değiştirilemez.
 path: ./veri
 train: images/train

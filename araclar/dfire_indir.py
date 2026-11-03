@@ -1,6 +1,8 @@
 """D-Fire görüntülerini Hugging Face kopyasından (badsaarow/d-fire) indirir.
 
     .venv/bin/python araclar/dfire_indir.py etiketli <klasor>   # eğitim görüntüleri
+    .venv/bin/python araclar/dfire_indir.py bos <klasor>        # boş aday görüntüler
+    .venv/bin/python araclar/dfire_indir.py test <klasor>       # test görüntüleri
     .venv/bin/python araclar/dfire_indir.py bilgi               # grupları listeler
 """
 import io
@@ -12,9 +14,14 @@ from pathlib import Path
 import pyarrow.parquet as pq
 
 ADRES = "https://huggingface.co/datasets/badsaarow/d-fire/resolve/main/data/train-0000{}-of-00009.parquet"
+TEST_ADRES = "https://huggingface.co/datasets/badsaarow/d-fire/resolve/main/data/test-0000{}-of-00003.parquet"
 
 # (parça, alt grup) seçimleri: bu projede kullanılanlar
 ETIKETLI = [(2, 0), (2, 1), (3, 3), (6, 3), (7, 0)]   # 2035 görüntü: kamera + internet yangınları
+BOS = [(1, 2), (3, 4), (4, 0), (4, 2)]                # 1234 boş aday: bulut, gün batımı, gökyüzü
+# D-Fire'ın ayrı test bölümü (eğitimde hiç kullanılmadı): kamera, kamuya açık ve internet
+# görüntülerinden dengeli bir karışım. Modelin gerçek başarısını ölçmek için.
+TEST = [(0, 2), (1, 0), (1, 1), (2, 0), (2, 2)]
 
 
 class UzakDosya(io.RawIOBase):
@@ -64,7 +71,7 @@ class UzakDosya(io.RawIOBase):
         return len(veri)
 
 
-def indir(secim, klasor, sadece_bos=False, adres=ADRES):
+def indir(secim, klasor, sadece_bos, adres=ADRES):
     klasor = Path(klasor)
     (klasor / "images").mkdir(parents=True, exist_ok=True)
     (klasor / "labels").mkdir(parents=True, exist_ok=True)
@@ -86,10 +93,10 @@ def indir(secim, klasor, sadece_bos=False, adres=ADRES):
 
 
 def bilgi():
-    for parca in sorted({p for p, _ in ETIKETLI}):
+    for parca in sorted({p for p, _ in ETIKETLI + BOS}):
         ust = pq.ParquetFile(UzakDosya(ADRES.format(parca))).metadata
         for g in range(ust.num_row_groups):
-            isaret = "seçildi" if (parca, g) in ETIKETLI else ""
+            isaret = "etiketli" if (parca, g) in ETIKETLI else ("bos" if (parca, g) in BOS else "")
             print(f"parça {parca} grup {g}: {ust.row_group(g).num_rows} görüntü, "
                   f"{ust.row_group(g).total_byte_size / 1e6:.0f} MB {isaret}")
 
@@ -97,7 +104,9 @@ def bilgi():
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "bilgi":
         bilgi()
-    elif len(sys.argv) == 3 and sys.argv[1] == "etiketli":
-        indir(ETIKETLI, sys.argv[2])
+    elif len(sys.argv) == 3 and sys.argv[1] == "test":
+        indir(TEST, sys.argv[2], False, TEST_ADRES)
+    elif len(sys.argv) == 3 and sys.argv[1] in ("etiketli", "bos"):
+        indir(ETIKETLI if sys.argv[1] == "etiketli" else BOS, sys.argv[2], sys.argv[1] == "bos")
     else:
         raise SystemExit(__doc__)

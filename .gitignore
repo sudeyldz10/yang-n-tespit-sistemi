@@ -14,6 +14,7 @@ runs/
 # Veri seti görüntüleri (büyük dosyalar repoya girmesin)
 veri/images/*/*
 veri/labels/*/*
+veri/labels/*.cache
 !veri/images/*/.gitkeep
 !veri/labels/*/.gitkeep
 
@@ -21,3 +22,14 @@ veri/labels/*/*
 alarmlar/goruntular/*
 !alarmlar/goruntular/.gitkeep
 alarmlar/log.txt
+
+# Test videoları (büyük dosyalar)
+videolar/*
+!videolar/.gitkeep
+
+# Eğitim çıktıları: sadece rapor ve test sonuçları repoya girer
+egitimler/*
+!egitimler/asil/
+egitimler/asil/*
+!egitimler/asil/rapor/
+!egitimler/test_degerlendirme/
