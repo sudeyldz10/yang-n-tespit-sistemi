@@ -26,12 +26,16 @@ YOLOv8 ve OpenCV ile geliştiriliyor.
 
 ![Etiket kontrolü](ekran_goruntuleri/etiket_kontrol.jpg)
 
+Kırmızı kutu: yangın, gri kutu: duman, kutusuz: yangın olmayan görüntü.
+
 **Hafta 3:** Eğitilmiş model `modeller/best.pt`.
 
 10. turdan sonra model bulutları, gün batımını ve şimşeği yangın/duman sanıyordu. Bu tür 450 boş görüntü
 veri setine eklendi (eğitim 1988, doğrulama 497 görüntü).
 
 ![Boş görüntü kontrolü](ekran_goruntuleri/bos_kontrol.jpg)
+
+10. turdaki modelin yangın olmayan görüntülerde yanlışlıkla gördüğü yangın/duman (bu görüntüler eğitime boş olarak eklendi).
 
 Doğrulama seti (497 görüntü), en iyi model:
 
