@@ -1,4 +1,6 @@
-"""YOLOv8 modeliyle karede yangın/duman tespiti."""
+"""YOLOv8 modeliyle karede yangın/duman tespiti ve alarm kararı."""
+import time
+from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -56,3 +58,21 @@ class YanginDedektoru:
             cv2.putText(kare, yazi, (x1 + 3, ust + y + 3), cv2.FONT_HERSHEY_SIMPLEX, olcek,
                         (255, 255, 255), 1, cv2.LINE_AA)
 
+
+class AlarmKarari:
+    """Son `sure_sn` saniyedeki karelerin en az `oran` kadarında tespit varsa alarm verir."""
+
+    def __init__(self, sure_sn=1.5, oran=0.7, en_az_kare=5):
+        self.sure_sn = sure_sn
+        self.oran = oran
+        self.en_az_kare = en_az_kare
+        self.gecmis = deque()
+
+    def guncelle(self, tespit_var_mi, zaman=None):
+        zaman = time.time() if zaman is None else zaman
+        self.gecmis.append((zaman, bool(tespit_var_mi)))
+        while self.gecmis[0][0] < zaman - self.sure_sn:
+            self.gecmis.popleft()
+        if len(self.gecmis) < self.en_az_kare:
+            return False
+        return sum(v for _, v in self.gecmis) / len(self.gecmis) >= self.oran

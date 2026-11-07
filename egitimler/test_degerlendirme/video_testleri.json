@@ -1,0 +1,37 @@
+[
+ {
+  "video": "Gece orman yangını, drone (4.5 dk)",
+  "model": "20. tur",
+  "ilk_alarm_sn": 0.3,
+  "alarmli_sure": 0.27,
+  "sonuc": "İlk saniyede alarm, uzaktaki alev hatlarını buluyor"
+ },
+ {
+  "video": "Duman görüntüsü (16 dk)",
+  "model": "20. tur",
+  "ilk_alarm_sn": 4.9,
+  "alarmli_sure": 0.95,
+  "sonuc": "Sürenin %95'inde alarm açık"
+ },
+ {
+  "video": "Sisli sabah, yangın yok (12 sn)",
+  "model": "20. tur",
+  "ilk_alarm_sn": null,
+  "alarmli_sure": 0.0,
+  "sonuc": "Alarm yok (doğru)"
+ },
+ {
+  "video": "Belgesel: duman bulutu ve orman yangını (3 dk)",
+  "model": "20. tur",
+  "ilk_alarm_sn": 6.5,
+  "alarmli_sure": 0.26,
+  "sonuc": "Yakın alevlerin bir kısmı kaçıyor; pembe çiçeklerde yanlış alarm"
+ },
+ {
+  "video": "Gece bina yangını (3 dk)",
+  "model": "20. tur",
+  "ilk_alarm_sn": 11.6,
+  "alarmli_sure": 0.44,
+  "sonuc": "Ekranı dolduran yakın alevlerin bir kısmı kaçıyor"
+ }
+]
